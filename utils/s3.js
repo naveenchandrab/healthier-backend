@@ -16,7 +16,7 @@ const generateSignedUrl = async (fileLocation, fileType) => {
     Key: fileLocation,
     Expires: 60 * 5,
     ContentType: fileType,
-    ACL: "public-read"
+    ACL: 'public-read'
   });
   return signedUrl;
 };

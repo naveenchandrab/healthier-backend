@@ -6,7 +6,7 @@ const exerciseSchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'ExerciseCategory',
     required: true,
   },
