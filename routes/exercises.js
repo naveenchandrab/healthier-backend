@@ -27,6 +27,16 @@ router.get('/', async (req, res) => {
 	}
 });
 
+router.get('/:id', async (req, res) => {
+	try {
+		const result = await Exercise.findById(req.params.id).populate('category');
+		if (!result) return res.status(400).send('Exercise not found!');
+		res.send(_.pick(result, ['name', 'category', 'video', 'likes', '_id']));
+	} catch (ex) {
+		res.status(400).send(ex.message);
+	}
+});
+
 router.post('/', async (req, res) => {
 	const { error } = validateExercise(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
