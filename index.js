@@ -17,6 +17,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const PORT = process.env.PORT || 5000;
+
 if (app.get('env') === 'development') {
 	morgan('tiny');
 	startupDebugger.enabled = true;
@@ -34,17 +36,12 @@ app.use('/', home);
 startupDebugger('Application name:', config.get('name'));
 
 mongoose
-	.connect(
-		`mongodb+srv://healthierAdmin:${process.env.DB_PASSWORD}@cluster0.jbtao.mongodb.net/healthier`,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		}
-	)
+	.connect(config.get('db'), {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
 	.then(() => {
 		dbDebugger('Connected to database');
-		app.listen(process.env.PORT || 5000, () =>
-			startupDebugger(`Listening to PORT ${PORT}`)
-		);
+		app.listen(PORT, () => startupDebugger(`Listening to PORT ${PORT}`));
 	})
 	.catch((error) => dbDebugger("Couldn't connect to database"));
