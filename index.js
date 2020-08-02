@@ -13,7 +13,6 @@ const exercises = require('./routes/exercises');
 const upload = require('./routes/upload');
 const exerciseCategory = require('./routes/exercisesCategory');
 
-const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -44,6 +43,8 @@ mongoose
 	)
 	.then(() => {
 		dbDebugger('Connected to database');
-		app.listen(PORT, () => startupDebugger(`Listening to PORT ${PORT}`));
+		app.listen(process.env.PORT || 5000, () =>
+			startupDebugger(`Listening to PORT ${PORT}`)
+		);
 	})
 	.catch((error) => dbDebugger("Couldn't connect to database"));
