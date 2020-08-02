@@ -35,10 +35,13 @@ app.use('/', home);
 startupDebugger('Application name:', config.get('name'));
 
 mongoose
-	.connect('mongodb://localhost/behealthy', {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(
+		`mongodb+srv://healthierAdmin:${process.env.DB_PASSWORD}@cluster0.jbtao.mongodb.net/healthier`,
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}
+	)
 	.then(() => {
 		dbDebugger('Connected to database');
 		app.listen(PORT, () => startupDebugger(`Listening to PORT ${PORT}`));
