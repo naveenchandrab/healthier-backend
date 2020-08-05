@@ -1,5 +1,5 @@
 {
-	"name": "BeHealthy",
+	"name": "",
 	"jwtPrivateKey": "",
 	"db": "mongodb://localhost/behealthy"
 }

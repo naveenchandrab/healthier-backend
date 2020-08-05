@@ -1,4 +1,4 @@
 {
-	"jwtPrivateKey": "BeHealthy",
+	"jwtPrivateKey": "JWT_PRIVATE_KEY",
 	"db": "DB_URL"
 }

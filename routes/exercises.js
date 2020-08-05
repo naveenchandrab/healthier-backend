@@ -8,6 +8,7 @@ const router = express.Router();
 const validateExercise = (exercise) => {
 	const schema = {
 		name: Joi.string().required(),
+		description: Joi.string().required(),
 		category: Joi.string().required(),
 		video: Joi.string(),
 		likes: Joi.number(),
@@ -19,7 +20,7 @@ router.get('/', async (req, res) => {
 	try {
 		const result = await Exercise.find().populate('category');
 		const excercises = result.map((user) =>
-			_.pick(user, ['name', 'category', 'video', 'likes', '_id'])
+			_.pick(user, ['name', 'description', 'category', 'video', 'likes', '_id'])
 		);
 		res.send(excercises);
 	} catch (ex) {

@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
 const User = require('../models/User');
+const auth = require('../middlewares/auth');
+const admin = require('../middlewares/admin');
+const { use } = require('./exercises');
 
 const router = express.Router();
 
@@ -18,16 +21,25 @@ const validateUser = (user) => {
 	return Joi.validate(user, schema);
 };
 
-router.get('/:id', async (req, res) => {
+router.get('/me', auth, async (req, res) => {
 	try {
-		const result = await User.findById({ _id: req.params.id });
-		res.send(_.pick(result, ['name', 'email', 'profilePic']));
+		const user = await User.findOne({ _id: req.user._id }).select('-password');
+		res.send(user);
 	} catch (ex) {
 		res.status(400).send(ex.message);
 	}
 });
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
+	try {
+		const result = await User.findById({ _id: req.params.id });
+		res.send(_.pick(result, ['name', 'email', 'profilePic', 'isAdmin']));
+	} catch (ex) {
+		res.status(400).send(ex.message);
+	}
+});
+
+router.get('/', [auth, admin], async (req, res) => {
 	try {
 		const result = await User.find();
 		const users = result.map((user) =>
