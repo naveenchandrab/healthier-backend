@@ -19,7 +19,10 @@ const userSchema = new mongoose.Schema({
 		required: true,
 	},
 	isAdmin: Boolean,
-	onboarding: Boolean,
+	onboarded: {
+		type: Boolean,
+		default: false,
+	},
 	profilePic: {
 		type: String,
 	},
