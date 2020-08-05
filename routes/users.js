@@ -16,6 +16,7 @@ const validateUser = (user) => {
 		email: Joi.string().email().required(),
 		password: Joi.string().min(8).required(),
 		isAdmin: Joi.bool(),
+		onboarding: Joi.bool(),
 		profilePic: Joi.string(),
 	};
 	return Joi.validate(user, schema);
@@ -33,7 +34,9 @@ router.get('/me', auth, async (req, res) => {
 router.get('/:id', async (req, res) => {
 	try {
 		const result = await User.findById({ _id: req.params.id });
-		res.send(_.pick(result, ['name', 'email', 'profilePic', 'isAdmin']));
+		res.send(
+			_.pick(result, ['name', 'email', 'profilePic', 'isAdmin', 'onboarding'])
+		);
 	} catch (ex) {
 		res.status(400).send(ex.message);
 	}
@@ -62,12 +65,12 @@ router.put('/:id', async (req, res) => {
 		const user = await User.findByIdAndUpdate(
 			{ _id: req.params.id },
 			{
-				$set: _.pick(req.body, ['name', 'email', 'profilePic']),
+				$set: _.pick(req.body, ['name', 'email', 'profilePic', 'onboarding']),
 			},
 			{ new: true }
 		);
 
-		res.send(_.pick(user, ['name', 'email', 'profilePic']));
+		res.send(_.pick(user, ['name', 'email', 'profilePic', 'onboarding']));
 	} catch (ex) {
 		res.status(400).send(ex.message);
 	}
