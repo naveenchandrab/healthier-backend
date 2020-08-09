@@ -19,10 +19,7 @@ const validateExercise = (exercise) => {
 router.get('/', async (req, res) => {
 	try {
 		const result = await Exercise.find().populate('category');
-		const excercises = result.map((user) =>
-			_.pick(user, ['name', 'description', 'category', 'video', 'likes', '_id'])
-		);
-		res.send(excercises);
+		res.send(result);
 	} catch (ex) {
 		res.status(400).send(ex.message);
 	}
@@ -32,7 +29,7 @@ router.get('/:id', async (req, res) => {
 	try {
 		const result = await Exercise.findById(req.params.id).populate('category');
 		if (!result) return res.status(400).send('Exercise not found!');
-		res.send(_.pick(result, ['name', 'category', 'video', 'likes', '_id']));
+		res.send(result);
 	} catch (ex) {
 		res.status(400).send(ex.message);
 	}
