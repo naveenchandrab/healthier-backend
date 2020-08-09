@@ -3,7 +3,7 @@ const config = require('config');
 
 const auth = (req, res, next) => {
 	const token = req.header('x-auth-token');
-	if (!token) return res.status(400).send('Access denied. Not token found');
+	if (!token) return res.status(400).send('Access denied. Token not found');
 	try {
 		const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
 		req.user = decoded;

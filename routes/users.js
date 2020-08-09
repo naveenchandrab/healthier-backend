@@ -16,8 +16,15 @@ const validateUser = (user) => {
 		email: Joi.string().email().required(),
 		password: Joi.string().min(8).required(),
 		isAdmin: Joi.bool(),
-		onboarded: Joi.bool(),
 		profilePic: Joi.string(),
+		age: Joi.number().required(),
+		fitnessType: Joi.string().required(),
+		weight: Joi.string().required(),
+		height: Joi.string().required(),
+		lifeStyle: Joi.string().required(),
+		foodStyle: Joi.string().required(),
+		goal: Joi.string().required(),
+		onboarded: Joi.bool(),
 	};
 	return Joi.validate(user, schema);
 };
@@ -46,7 +53,7 @@ router.get('/', [auth, admin], async (req, res) => {
 	try {
 		const result = await User.find();
 		const users = result.map((user) =>
-			_.pick(user, ['name', 'email', 'profilePic'])
+			_.pick(user, ['name', 'email', 'profilePic', 'onboarded'])
 		);
 		res.send(users);
 	} catch (ex) {

@@ -19,6 +19,9 @@ const exerciseSchema = new mongoose.Schema({
 	likes: {
 		type: Number,
 	},
+	tags: {
+		type: [String],
+	},
 });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
